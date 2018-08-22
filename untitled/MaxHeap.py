@@ -10,7 +10,7 @@ class MaxHeap:
         self.arr = arr
         # Sorting in non decreasing order
 
-    def printArray(self, arr):
+    def printArray(arr):
         print(' '.join(str(i) for i in arr))
 
     def heapsort(arr):
@@ -18,7 +18,7 @@ class MaxHeap:
 
     # creating a heap
 
-        heap = MaxHeap.createHeap(self, arr, n)
+        heap = MaxHeap.createHeap(arr, n)
 
     # Repeating the below steps till the size of the heap is 1.
 
@@ -31,15 +31,15 @@ class MaxHeap:
 
     # creating a heap
 
-    def createHeap(self, arr, N):
+    def createHeap(arr, N):
         maxheap = MaxHeap(N, arr)
         i = int((maxheap.len - 2) / 2)
         while i >= 0:
-            maxheap = self.heapify(maxheap, i)
+            maxheap = MaxHeap.heapify(maxheap, i)
             i -= 1
         return maxheap
 
-    def heapify(self, maxheap, N):
+    def heapify(maxheap, N):
         largest = N
         left = 2 * N + 1  # index of left child
         right = 2 * N + 2  # index of right child
@@ -52,7 +52,7 @@ class MaxHeap:
             MaxHeap.heapify(maxheap, largest)
         return maxheap
 
-    def swap(self, maxheap, i, j):
+    def swap(maxheap, i, j):
         temp = maxheap.arr[i]
         maxheap.arr[i] = maxheap.arr[j]
         maxheap.arr[j] = temp
