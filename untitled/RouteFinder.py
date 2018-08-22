@@ -2,7 +2,7 @@ import googlemaps,json,heapq
 gapi = "AIzaSyC2mfL58CI4oSI31dB9afbJZ5EN_wDQirg"
 gmaps = googlemaps.Client(key=gapi)
 distance = gmaps.distance_matrix
-
+final_list = []
 
 class Point:
     address = ""
@@ -18,12 +18,18 @@ class Point:
         return point2.value
 
     def max_find(points):
-        return heapq.nlargest(1, points, Point.value)
+        largest = Point("", 0)
+        for x in points:
+            if x.value > largest.value:
+                largest = x
+        return largest
 
 
-arr = [9, 4, 8, 3, 1, 2, 5]
+pointa = Point("123 somewhere", 1)
+pointb = Point("456 somewhere", 2)
+
+arr = [pointa, pointb]
 print("Initial Array  :",)
-print(arr)
-arr = Point.max_find(arr)
-print("After Sorting  :",)
-print(arr)
+biggest = Point.max_find(arr)
+print(biggest.address)
+
