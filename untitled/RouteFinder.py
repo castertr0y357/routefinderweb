@@ -1,22 +1,25 @@
-import googlemaps,json,heapq
+import googlemaps
 gapi = "AIzaSyC2mfL58CI4oSI31dB9afbJZ5EN_wDQirg"
 gmaps = googlemaps.Client(key=gapi)
 distance = gmaps.distance_matrix
-final_list = []
+input_points = [""] * 20
+map_points = []
+map_order = []
 
 
 class Point:
     address = ""
     value = 0
 
-    def __init__(self, address, value):
+    def __init__(self, address):
         self.address = address
-        self.value = value
+        self.value = 0
 
     @staticmethod
     def find_distance(point1, point2):
         result = distance(point1.address, point2.address, units="imperial")
-        return result
+        point2.value = result["rows"][0]["elements"][0]["duration"]["value"]  #Value in seconds
+        return point2.value
 
     @staticmethod
     def find_max(points):
@@ -34,15 +37,25 @@ class Point:
                 smallest = x
         return smallest
 
-    #@staticmethod
+    @staticmethod
+    def create_points(points_list):
+        for x in points_list:
+            map_points.append(Point(x))
+        return
 
 
-pointa = Point("123 somewhere", 3)
-pointb = Point("456 somewhere", 2)
+pointa = "141 daneborg rd durham nc 27703"
+pointb = "3030 slater rd morrisville nc 27560"
 
-arr = [pointa, pointb]
-furthest = Point.find_max(arr)
-closest = Point.find_min(arr)
-print(furthest.address)
-print(closest.address)
+input_points[10] = pointb
+"""furthest = Point.find_max(arr)
+#closest = Point.find_min(arr)
+#print(furthest.address)
+#print(closest.address)
+Point.create_points(input_points)
+print(map_points[1].address)
+Point.find_distance(map_points[0], map_points[1])
+print(map_points[1].value)"""
+
+print(input_points)
 
