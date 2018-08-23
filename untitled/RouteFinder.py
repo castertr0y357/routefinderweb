@@ -4,6 +4,7 @@ gmaps = googlemaps.Client(key=gapi)
 distance = gmaps.distance_matrix
 final_list = []
 
+
 class Point:
     address = ""
     value = 0
@@ -12,24 +13,36 @@ class Point:
         self.address = address
         self.value = value
 
-    def find_distance(self, point1, point2):
-        result = distance(point1, point2, units="imperial")
-        point2.value = result
-        return point2.value
+    @staticmethod
+    def find_distance(point1, point2):
+        result = distance(point1.address, point2.address, units="imperial")
+        return result
 
-    def max_find(points):
+    @staticmethod
+    def find_max(points):
         largest = Point("", 0)
         for x in points:
             if x.value > largest.value:
                 largest = x
         return largest
 
+    @staticmethod
+    def find_min(points):
+        smallest = Point.find_max(points)
+        for x in points:
+            if x.value < smallest.value:
+                smallest = x
+        return smallest
 
-pointa = Point("123 somewhere", 1)
+    #@staticmethod
+
+
+pointa = Point("123 somewhere", 3)
 pointb = Point("456 somewhere", 2)
 
 arr = [pointa, pointb]
-print("Initial Array  :",)
-biggest = Point.max_find(arr)
-print(biggest.address)
+furthest = Point.find_max(arr)
+closest = Point.find_min(arr)
+print(furthest.address)
+print(closest.address)
 
