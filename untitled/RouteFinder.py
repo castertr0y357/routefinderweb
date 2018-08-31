@@ -54,7 +54,7 @@ class Point:
 
     @staticmethod
     def create_route():
-        center = int(map_order.__len__() / 2) - 1
+        center = int(map_order.__len__() / 2)
         left = center - 1
         right = left + 1
         left_open = True
@@ -67,18 +67,21 @@ class Point:
         for x in map_points:
             Point.find_distance(home, x)
 
-        map_order[center] = Point.find_max(map_points)
-         # = max_point
-        #test_order[center] = max_point.address
+        max_point = Point.find_max(map_points)
+        map_order[center] = max_point
+        # test_order[center] = max_point.address
+        print("")
+        print("center address:")
+        print(map_order[center].address)
+
+        # test_order[center] = max_point.address
 
         # remove furthest point and add home into map points
 
-        map_points.remove(map_order[center])
+        map_points.remove(max_point)
         map_points.append(home)
 
         reference = center
-
-        print(test_order)
 
         # find left and right points
 
@@ -91,30 +94,49 @@ class Point:
                     Point.find_distance(map_order[reference], y)
 
                 min_point = Point.find_min(map_points)
+                print("")
+                print("min_point")
                 print(min_point.address)
+                # print(min_point.address)
 
                 # if right point is closer, set right point
 
-                if Point.find_distance(min_point, map_order[right]) < min_point.value:
+                min_value = min_point.value
+                if Point.find_distance(map_order[right], min_point) < min_value:
+                    print("")
+                    print("right side value")
+                    print(Point.find_distance(min_point, map_order[right]))
+                    print("min value")
+                    print(min_value)
+                    print("adding to right")
                     right += 1
                     reference = right
                     map_order[right] = min_point
-                    test_order[right] = min_point.address
+                    # test_order[right] = min_point.address
                     map_points.remove(min_point)  # remove the minimum point from the map_points list
 
                     if min_point == home:
                         map_order.remove(min_point)  # remove home from map order
+                        # test_order.remove(min_point.address)
                         right_open = False  # close the right side of the map_order list
 
                 else:  # Set the point on the left side
+                    print("")
+                    print("right side value")
+                    print(Point.find_distance(min_point, map_order[right]))
+                    print("min value")
+                    print(min_value)
+                    print("adding to left")
                     map_order[left] = min_point
-                    test_order[left] = min_point.address
+                    # test_order[left] = min_point.address
                     map_points.remove(min_point)
+                    # test_order.remove(min_point.address)
                     reference = left
                     left -= 1
 
                     if min_point == home:
                         map_order.remove(min_point)  # remove home from map order
+                        # test_order.remove(min_point.address)
                         left_open = False  # close the left side of the map order list
 
             elif left_open:  # if left side only is open
@@ -123,9 +145,9 @@ class Point:
                     Point.find_distance(map_order[reference], y)
 
                 min_point = Point.find_min(map_points)
-                print(min_point.address)
+                # print(min_point.address)
                 map_order[left] = min_point
-                test_order[left] = min_point.address
+                # test_order[left] = min_point.address
                 map_points.remove(min_point)
                 reference = left
                 left -= 1
@@ -136,29 +158,36 @@ class Point:
                     Point.find_distance(map_order[reference], y)
 
                 min_point = Point.find_min(map_points)
-                print(min_point.address)
+                # print(min_point.address)
                 right += 1
                 reference = right
                 map_order[right] = min_point
-                test_order[right] = min_point.address
+                # test_order[right] = min_point.address
                 map_points.remove(min_point)
 
-            print(test_order)
+            '''print("")
+            print("test_order")
+            print(test_order)'''
 
+        print("")
         Point.print_points()  # Print out the points for the user.
 
 
-pointa = "12677 newfield drive orlando fl 32837"
-pointb = "3030 slater rd morrisville nc 27560"
-pointc = "2079 longhunter chase dr spring hill tn"
-pointd = "4500 the woods drive san jose ca 95136"
+pointa = "nashville tn"
+pointb = "atlanta ga"
+pointc = "dallas tx"
+pointd = "indianapolis in"
+pointe = "denver co"
+pointf = "san francisco ca"
+pointg = "austin, tx"
+pointh = "las vegas nv"
 
 home = Point("141 daneborg rd durham nc 27703")
 
-input_points = [pointa, pointb, pointc, pointd]
+input_points = [pointa, pointb, pointc, pointd, pointe, pointf, pointg, pointh]
 map_points = []
-map_order = [""] * (input_points.__len__() * 2)
-test_order = map_order
+map_order = [""] * ((input_points.__len__() * 2) + 1)
+#test_order = [""] * ((input_points.__len__() * 2) + 1)
 Point.create_route()
 
 """furthest = Point.find_max(arr)
