@@ -43,13 +43,38 @@ class Point:
     @staticmethod
     def print_points():
         counter = 1
+        first_point = map_order[0]
+        last_point = map_order[(map_order.__len__() - 1)]
+
         for x in map_order:
             if x == "":
                 pass
             else:
-                print(str(counter) + ": " + x.address)
-                #print(x.address)
-                counter += 1
+                first_point = x
+                break
+
+        for x in reversed(map_order):
+            if x == "":
+                pass
+            else:
+                last_point = x
+                break
+
+        if Point.find_distance(home, first_point) < Point.find_distance(home, last_point):
+            for x in map_order:
+                if x == "":
+                    pass
+                else:
+                    print(str(counter) + ": " + x.address)
+                    counter += 1
+
+        else:
+            for x in reversed(map_order):
+                if x == "":
+                    pass
+                else:
+                    print(str(counter) + ": " + x.address)
+                    counter += 1
         return
 
     @staticmethod
@@ -168,23 +193,31 @@ class Point:
             '''print("")
             print("test_order")
             print(test_order)'''
+            print(map_order)
+
+        for x in map_points:
+            if x == "":
+                map_points.remove(x)
+
+        print(map_order)
 
         print("")
         Point.print_points()  # Print out the points for the user.
 
 
-pointa = "nashville tn"
-pointb = "atlanta ga"
-pointc = "dallas tx"
-pointd = "indianapolis in"
-pointe = "denver co"
-pointf = "san francisco ca"
-pointg = "austin, tx"
-pointh = "las vegas nv"
+pointa = "2338 Thunder Rd, Durham, NC 27712"
+pointb = "2509 Palmer Ct, Wake Forest, NC 27587"
+pointc = "Cedar Creek, Wendell, NC 27591"
+pointd = "136 Pineland Cir, Raleigh, NC 27606"
+pointe = "5479 Cornwallis Rd, Garner, NC 27529"
+pointf = "Cedar Creek, Wendell, NC 27591"
+pointg = "259 Hillsboro St, Pittsboro, NC 27312"
+pointh = "4644 Randleman Rd, Greensboro, NC 27406"
+pointi = "seattle wa"
 
 home = Point("141 daneborg rd durham nc 27703")
 
-input_points = [pointa, pointb, pointc, pointd, pointe, pointf, pointg, pointh]
+input_points = [pointa, pointb, pointc, pointd, pointe, pointg, pointh]
 map_points = []
 map_order = [""] * ((input_points.__len__() * 2) + 1)
 #test_order = [""] * ((input_points.__len__() * 2) + 1)
