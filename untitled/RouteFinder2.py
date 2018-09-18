@@ -1,4 +1,5 @@
 import googlemaps
+
 gapi = "AIzaSyC2mfL58CI4oSI31dB9afbJZ5EN_wDQirg"
 gmaps = googlemaps.Client(key=gapi)
 distance = gmaps.distance_matrix
@@ -63,7 +64,7 @@ class Point:
 
         # if Point.find_distance(home, first_point) < Point.find_distance(home, last_point):
         for x in map_order:
-            if x == home:
+            if x == "":
                 pass
             else:
                 print(str(counter) + ": " + x.address)
@@ -81,22 +82,54 @@ class Point:
 
     @staticmethod
     def create_route():
-        # center = int(map_order.__len__() / 2)
-        left = 0
-        right = map_order.__len__() - 1
+        center = int(map_order.__len__() / 2)
+        left = center - 2
+        right = center
         left_open = True
         right_open = True
 
         Point.create_points(input_points)
-        map_order[right] = home
+        # map_order[right] = home
 
-        # No need to work from furthest point.  Can work from home point and build out list
+        # Working from shortest 2 points out
+
+        empty_list = ["", ""]
+        shortest_points_list = []
+        for x in range(map_points.__len__()):
+            shortest_points_list.append(empty_list)
+
+        count = 0
+        shortest = 0
+
+        for x in map_points:
+            print(shortest_points_list)
+            for y in map_points:
+                if x == y:
+                    pass
+                else:
+                    Point.find_distance(x, y)
+            shortest_points_list[count][0] = x
+            shortest_points_list[count][1] = Point.find_min(map_points)
+            count += 1
+
+        for x in range(shortest_points_list.__len__()):
+            if shortest == 0:
+                shortest = x
+            else:
+                if shortest_points_list[x][1].value < shortest_points_list[shortest][1].value:
+                    shortest = x
+
+        map_order[center] = shortest_points_list[shortest][1]
+        map_points.remove(map_order[center])
+        map_order[(center - 1)] = shortest_points_list[shortest][0]
+        map_points.remove(map_order[(center - 1)])
+
 
         '''for x in map_points:
             Point.find_distance(home, x)
 
         max_point = Point.find_max(map_points)
-        
+
         # test_order[center] = max_point.address
         print("")
         print("center address:")
@@ -106,10 +139,10 @@ class Point:
 
         # remove furthest point and add home into map points
 
-        # map_points.remove(max_point)
-        # map_points.append(home)'''
+        # map_points.remove(max_point)'''
 
-        reference = right
+        map_points.append(home)
+        reference = center - 1
 
         # find left and right points
 
@@ -137,7 +170,7 @@ class Point:
                     print("min value")
                     print(min_value)
                     print("adding to right")
-                    right -= 1
+                    right += 1
                     reference = right
                     map_order[right] = min_point
                     # test_order[right] = min_point.address
@@ -161,7 +194,7 @@ class Point:
                     map_points.remove(min_point)
                     # test_order.remove(min_point.address)
                     reference = left
-                    left += 1
+                    left -= 1
 
                     '''if min_point == home:
                         map_order.remove(min_point)  # remove home from map order
@@ -180,7 +213,7 @@ class Point:
                 # test_order[left] = min_point.address
                 map_points.remove(min_point)
                 reference = left
-                left += 1
+                left -= 1
 
             else:  # if right side only is open
 
@@ -189,7 +222,7 @@ class Point:
 
                 min_point = Point.find_min(map_points)
                 # print(min_point.address)
-                right -= 1
+                right += 1
                 reference = right
                 map_order[right] = min_point
                 # test_order[right] = min_point.address
@@ -220,8 +253,8 @@ home = Point("141 daneborg rd durham nc 27703")
 
 input_points = [pointa, pointb, pointc, pointd, pointe, pointg, pointh]
 map_points = []
-map_order = [""] * ((input_points.__len__()) + 1)
-# map_order = [""] * ((input_points.__len__() * 2) + 1)
+# map_order = [""] * ((input_points.__len__()) + 1)
+map_order = [""] * ((input_points.__len__() * 2) + 3)
 # test_order = [""] * ((input_points.__len__() * 2) + 1)
 Point.create_route()
 
