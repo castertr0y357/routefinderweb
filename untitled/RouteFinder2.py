@@ -42,12 +42,22 @@ class Point:
         return
 
     @staticmethod
+    def get_input_points():
+        while True:
+            point_input = input("Please input an address, or hit enter to finish inputting")
+            if point_input == "":
+                break
+            else:
+                input_points.append(point_input)
+
+    @staticmethod
     def print_points():
         counter = 1
-        first_point = map_order[0]
-        last_point = map_order[(map_order.__len__() - 1)]
 
-        '''for x in map_order:
+        first_point = Point("")
+        last_point = Point("")
+
+        for x in map_order:
             if x == "":
                 pass
             else:
@@ -60,24 +70,22 @@ class Point:
             else:
                 last_point = x
                 break
-                '''
 
-        # if Point.find_distance(home, first_point) < Point.find_distance(home, last_point):
-        for x in map_order:
-            if x == "":
-                pass
-            else:
-                print(str(counter) + ": " + x.address)
-                counter += 1
+        if Point.find_distance(home, first_point) < Point.find_distance(home, last_point):
+            for x in map_order:
+                if x == "":
+                    pass
+                else:
+                    print(str(counter) + ": " + x.address)
+                    counter += 1
 
-        '''else:
+        else:
             for x in reversed(map_order):
                 if x == "":
                     pass
                 else:
                     print(str(counter) + ": " + x.address)
                     counter += 1
-                    '''
         return
 
     @staticmethod
@@ -102,7 +110,6 @@ class Point:
         shortest = 0
 
         for x in map_points:
-            print(shortest_points_list)
             for y in map_points:
                 if x == y:
                     pass
@@ -121,8 +128,10 @@ class Point:
 
         map_order[center] = shortest_points_list[shortest][1]
         map_points.remove(map_order[center])
+        print(map_order[center].address)
         map_order[(center - 1)] = shortest_points_list[shortest][0]
         map_points.remove(map_order[(center - 1)])
+        print(map_order[(center - 1)].address)
 
 
         '''for x in map_points:
@@ -176,11 +185,10 @@ class Point:
                     # test_order[right] = min_point.address
                     map_points.remove(min_point)  # remove the minimum point from the map_points list
 
-                    '''if min_point == home:
+                    if min_point == home:
                         map_order.remove(min_point)  # remove home from map order
                         # test_order.remove(min_point.address)
                         right_open = False  # close the right side of the map_order list
-                        '''
 
                 else:  # Set the point on the left side
                     print("")
@@ -196,11 +204,10 @@ class Point:
                     reference = left
                     left -= 1
 
-                    '''if min_point == home:
+                    if min_point == home:
                         map_order.remove(min_point)  # remove home from map order
                         # test_order.remove(min_point.address)
                         left_open = False  # close the left side of the map order list
-                        '''
 
             elif left_open:  # if left side only is open
 
@@ -251,7 +258,8 @@ pointi = "seattle wa"
 
 home = Point("141 daneborg rd durham nc 27703")
 
-input_points = [pointa, pointb, pointc, pointd, pointe, pointg, pointh]
+# input_points = [pointa, pointb, pointc, pointd, pointe, pointg, pointh]
+input_points = []
 map_points = []
 # map_order = [""] * ((input_points.__len__()) + 1)
 map_order = [""] * ((input_points.__len__() * 2) + 3)
