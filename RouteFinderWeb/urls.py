@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
-from . import views
+from django.urls import include, path
 
 urlpatterns = [
     path('RouteFinder/', include('RouteFinder.urls')),
-    url(r'^admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
 ]
